@@ -19,7 +19,7 @@ const forecast = (lat, long, callback) => {
         }
         else
         {
-        callback(undefined,body.current.weather_descriptions[0] + '- It is currently ' + body.current.temperature +'C and it feels like ' + body.current.feelslike +'C. With wind speed' + body.current.wind_speed + ' coming from the ' + body.current.wind_dir)
+        callback(undefined,body.current.weather_descriptions[0] + '- It is currently ' + body.current.temperature +'C and it feels like ' + body.current.feelslike +'C. With wind speed ' + body.current.wind_speed + 'KM/H coming from the ' + body.current.wind_dir)
        }
     })
 }
