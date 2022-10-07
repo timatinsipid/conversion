@@ -27,11 +27,11 @@ usdForm.addEventListener('submit', (e) => {
 })
     
 
-cadForm.addEventListener('submit', (e) => {
+cadPrice.addEventListener('blur', (e) => {
     e.preventDefault();
     const amount = parseFloat(cadPrice.value)
     const tax = amount*0.12
     const total = parseFloat(amount)+parseFloat(tax)
-    cadm1.textContent = "Tax amount $" + tax 
-    cadm2.textContent = "Total after tax $" + total
+    cadm1.textContent = "Tax amount $" + tax.toFixed(2) 
+    cadm2.textContent = "Total after tax $" + total.toFixed(2)
 })
