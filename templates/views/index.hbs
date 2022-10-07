@@ -12,6 +12,10 @@
     <div class="main-content">
         {{>header}}
         <p>Use this site to compare prices to Canada!</p>
+        <form id="currentRateForm">
+            <p id="currentRate">1.371035</p>
+            <button>Update Rate</button>
+        </form>
         <form id="cad">
             <input placeholder="Canadian Price" id="cadPrice">
         </form>
@@ -21,8 +25,7 @@
             <input placeholder="US Price" id="usPrice">
             <button>Convert</button>
         </form>
-        <p id="usmessage1"></p>
-        <p id="usmessage2"></p>
+        <p id="usmessage">Empty</p>
     </div>
     {{>footer}}
     <script src="js/app.js"></script>
