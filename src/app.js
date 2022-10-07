@@ -1,8 +1,8 @@
 const path = require('path')
 const express = require('express')
 const hbs = require('hbs')
-const geocode = require('./utils/geocode')
-const forecast = require('./utils/forecast.js')
+const currencyQuote = require('./utils/currencyQuote')
+
 
 const app = express()
 const port = process.env.PORT || 3000
@@ -24,7 +24,7 @@ app.use(express.static(publicDirectory))
 //setup routes
 app.get('', (req, res) => {
     res.render('index', {
-        title: 'Weather App',
+        title: 'Conversion App',
         name: 'Tim'
     })
 })
@@ -45,42 +45,38 @@ app.get('/help', (req, res) => {
             name: 'Tim'
         })
 })
- 
-app.get('/weather', (req, res) => {
-    if (!req.query.address) {
-        return res.send({ error: 'you must provide an address' })
+
+app.get('/quote', (req, res) => {
+    if (!req.query.amount) {
+        return res.send({ error: 'you must provide an amount' })
     }
-    geocode(req.query.address, (error, { latitude, longitude, location }= {}) => {
+    currencyQuote("USD", (error, body) => {
         if (error) {
+            console.log("in error block")
             return res.send({ error })
         }
-        forecast(latitude,longitude,(error, forecastData)=>{
-            if (error)
-            {
-                return res.send({ error })
-            }
-            return res.send({
-                forecast: forecastData,
-                location,
-                address:req.query.address
-            })
-
-            })
+        console.log(body)
+        return res.send(body)
     })
 
 })
 
-app.get('/products', (req, res) => {
-    if (!req.query.search) {
-        return res.send({ error: 'you must provide a search term' })
+app.get('/quotetest', (req, res) => {
+    if (!req.query.amount) {
+        return res.send({ error: 'you must provide an amount' })
     }
-
-
-    console.log(req.query.search)
-    res.send({
-        products: []
-    })
+    let body = {
+        "success": true,
+        "timestamp": 1665164764,
+        "source": "USD",
+        "quotes": {
+            "USDCAD": 1.37118
+        }
+    }
+    console.log(body)
+    return res.send(body)
 })
+
 
 app.get('/help/*', (req, res) => {
     res.render('404',
@@ -89,18 +85,6 @@ app.get('/help/*', (req, res) => {
             errorMessage: 'Help article not found',
             name: 'Tim'
         })
-
-})
-
-app.get('/products', (req, res) => {
-    if (!req.query.search) {
-        return res.send({
-            error: 'you must provide a search term'
-        })
-    }
-    res.send({
-        products: []
-    })
 
 })
 

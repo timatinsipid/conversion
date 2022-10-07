@@ -1,23 +1,37 @@
-const weatherForm = document.querySelector('form')
-const search = document.querySelector('input')
-const m1 = document.querySelector('#message1')
-const m2 = document.querySelector('#message2')
+const cadForm = document.querySelector('#cad')
+const usdForm = document.querySelector('#usd')
+const cadPrice = document.querySelector('#cadPrice')
+const usPrice = document.querySelector('#usPrice')
+const cadm1 = document.querySelector('#cadmessage1')
+const cadm2 = document.querySelector('#cadmessage2')
+const usm1 = document.querySelector('#usmessage1')
+const usm2 = document.querySelector('#usmessage2')
 
 
-
-weatherForm.addEventListener('submit', (e) => {
+usdForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    const location = search.value
-    const url = "/weather?address=" + location
-    m1.textContent = "loading"
-    m2.textContent = ""
-    fetch(url).then((response) => {
-        response.json().then((data) => {
+    const amount = usPrice.value
+    const url = "/quote?amount=" + amount
+    usm1.textContent = "loading"
+    usm2.textContent = ""
+    fetch(url)
+    .then(response => response.json())
+    .then(data => {
             if (data.error) { m1.textContent = data.error }
             else {
-                m1.textContent = data.location
-                m2.textContent = data.forecast
+                const rate = parseFloat(data.quotes.USDCAD)
+                usm1.textContent = "Live Rate " + rate 
+                usm2.textContent = "CAD $"+(parseFloat(usPrice.value)*rate).toFixed(2)
             }
         })
-    })
+})
+    
+
+cadForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const amount = parseFloat(cadPrice.value)
+    const tax = amount*0.12
+    const total = parseFloat(amount)+parseFloat(tax)
+    cadm1.textContent = "Tax amount $" + tax 
+    cadm2.textContent = "Total after tax $" + total
 })
